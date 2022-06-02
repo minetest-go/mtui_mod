@@ -1,5 +1,5 @@
 globals = {
-	"mtadmin"
+	"mtui"
 }
 
 read_globals = {

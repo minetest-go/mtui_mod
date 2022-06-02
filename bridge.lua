@@ -1,11 +1,11 @@
 local http = ...
 
 -- send a command to the ui
-function mtadmin.send_command(cmd, success_callback, error_callback)
+function mtui.send_command(cmd, success_callback, error_callback)
     http.fetch({
-        url = mtadmin.url .. "/api/bridge",
+        url = mtui.url .. "/api/bridge",
         extra_headers = {
-            "Api-Key: " .. mtadmin.key
+            "Api-Key: " .. mtui.key
         },
         timeout = 10,
         method = "POST",
@@ -26,16 +26,16 @@ end
 
 local command_handlers = {}
 
-function mtadmin.register_on_command(type, handler)
+function mtui.register_on_command(type, handler)
     command_handlers[type] = handler
 end
 
 -- fetch commands from the ui
 local function fetch_commands()
     http.fetch({
-        url = mtadmin.url .. "/api/bridge",
+        url = mtui.url .. "/api/bridge",
         extra_headers = {
-            "Api-Key: " .. mtadmin.key
+            "Api-Key: " .. mtui.key
         },
         timeout = 30,
         method = "GET"
@@ -47,7 +47,7 @@ local function fetch_commands()
                 local handler = command_handlers[cmd.type]
                 if type(handler) == "function" then
                     local send = function(data)
-                        mtadmin.send_command({
+                        mtui.send_command({
                             type = cmd.type,
                             id = cmd.id,
                             data = data
@@ -64,7 +64,7 @@ local function fetch_commands()
 
             minetest.after(0, fetch_commands)
         else
-            print("[mtadmin] bridge error: " .. res.code)
+            print("[mtui] bridge error: " .. res.code)
             minetest.after(10, fetch_commands)
         end
     end)

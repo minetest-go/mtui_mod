@@ -1,4 +1,4 @@
 
-mtadmin.register_on_command("ping", function()
+mtui.register_on_command("ping", function()
     return {}
 end)

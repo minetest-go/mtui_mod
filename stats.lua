@@ -5,7 +5,7 @@ local function post_stats()
         players[player:get_player_name()] = {}
     end
 
-    mtadmin.send_command({
+    mtui.send_command({
         type = "stats",
         data = {
             players = players,
