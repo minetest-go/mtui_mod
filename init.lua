@@ -15,3 +15,4 @@ loadfile(MP.."/bridge.lua")(http)
 
 dofile(MP.."/stats.lua")
 dofile(MP.."/handlers/ping.lua")
+dofile(MP.."/handlers/execute_command.lua")
