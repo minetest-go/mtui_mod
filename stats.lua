@@ -4,7 +4,8 @@ local function post_stats()
     for _, player in ipairs(minetest.get_connected_players()) do
         local playername = player:get_player_name()
         local info = minetest.get_player_information(playername)
-        players[playername] = info
+        info.name = playername;
+        table.insert(players, info)
     end
 
     mtui.send_command({
@@ -20,5 +21,9 @@ local function post_stats()
 
     minetest.after(2, post_stats)
 end
+
+-- update stats on join/leave
+minetest.register_on_joinplayer(post_stats)
+minetest.register_on_leaveplayer(post_stats)
 
 minetest.after(1, post_stats)

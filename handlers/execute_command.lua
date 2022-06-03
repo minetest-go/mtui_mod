@@ -23,5 +23,7 @@ mtui.register_on_command("execute_command", function(data)
 		return { success=false, message="Command crashed: " .. dump(err) }
 	end
 
+	-- strip colors
+	message = minetest.strip_colors(message or "")
 	return { success = result, message = message }
 end)
