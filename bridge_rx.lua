@@ -1,29 +1,5 @@
 local http = ...
 
--- send a command to the ui
-function mtui.send_command(cmd, success_callback, error_callback)
-    http.fetch({
-        url = mtui.url .. "/api/bridge",
-        extra_headers = {
-            "Api-Key: " .. mtui.key
-        },
-        timeout = 10,
-        method = "POST",
-        data = minetest.write_json(cmd)
-    }, function(res)
-        if res.succeeded and res.code == 200 and type(success_callback) == "function" then
-            local obj = minetest.parse_json(res.data)
-            success_callback(obj)
-        elseif type(error_callback) == "function" then
-            local obj
-            if res.data and res.data ~= "" then
-                obj = minetest.parse_json(res.data)
-            end
-            error_callback(res.code or 0, obj)
-        end
-    end)
-end
-
 local command_handlers = {}
 
 function mtui.register_on_command(type, handler)
