@@ -3,9 +3,15 @@ local function post_stats()
     local players = {}
     for _, player in ipairs(minetest.get_connected_players()) do
         local playername = player:get_player_name()
-        local info = minetest.get_player_information(playername)
-        info.name = playername;
-        table.insert(players, info)
+        table.insert(players, {
+            name = playername,
+            info = minetest.get_player_information(playername),
+            hp = player:get_hp(),
+            breath = player:get_breath(),
+            physics = player:get_physics_override(),
+            control = player:get_player_control(),
+            pos = player:get_pos()
+        })
     end
 
     mtui.send_command({
