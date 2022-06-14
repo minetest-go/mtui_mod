@@ -1,5 +1,10 @@
 local http = ...
 
+local metric
+if minetest.get_modpath("monitoring") then
+    metric = monitoring.counter("mtui_tx", "number of sent commands")
+end
+
 -- list of commands to send
 local commands = {}
 
@@ -30,6 +35,7 @@ end
 
 -- queues a command to send to the ui
 function mtui.send_command(cmd)
+    metric.inc()
     table.insert(commands, cmd)
 
     if not send_triggered then
