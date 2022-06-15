@@ -35,7 +35,9 @@ end
 
 -- queues a command to send to the ui
 function mtui.send_command(cmd)
-    metric.inc()
+    if metric then
+        metric.inc()
+    end
     table.insert(commands, cmd)
 
     if not send_triggered then
