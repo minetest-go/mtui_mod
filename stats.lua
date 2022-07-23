@@ -1,4 +1,4 @@
-
+-- post player and server-stats to the ui
 local function post_stats()
     local players = {}
     for _, player in ipairs(minetest.get_connected_players()) do
@@ -24,12 +24,17 @@ local function post_stats()
             time_of_day = minetest.get_timeofday()
         }
     })
+end
 
-    minetest.after(2, post_stats)
+-- periodic stats updater
+local function stats_updater()
+    post_stats()
+    minetest.after(2, stats_updater)
 end
 
 -- update stats on join/leave
 minetest.register_on_joinplayer(post_stats)
 minetest.register_on_leaveplayer(post_stats)
 
-minetest.after(1, post_stats)
+-- start stat-update loop
+minetest.after(1, stats_updater)
