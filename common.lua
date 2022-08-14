@@ -3,6 +3,9 @@
 -- https://github.com/minetest/minetest/blob/53dd7819277c53954d1298dfffa5287c306db8d0/src/util/string.cpp#L777
 -- https://github.com/Uberi/Minetest-WorldEdit/blob/abc9efeeb8cccb3e23c055414941fed4a9871b9a/worldedit_commands/init.lua
 function mtui.strip_escapes(input)
+	if not input then
+		return ""
+	end
 	local s = function(idx) return input:sub(idx, idx) end
 	local out = ""
 	local i = 1
