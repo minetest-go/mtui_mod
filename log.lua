@@ -139,7 +139,10 @@ minetest.register_on_generated(function(minp, maxp)
             category = "minetest",
             event = "on_generated",
             message = "map generated between " ..
-                minetest.pos_to_string(minp) .. " and " .. minetest.pos_to_string(maxp)
+                minetest.pos_to_string(minp) .. " and " .. minetest.pos_to_string(maxp),
+            posx = minp.x,
+            posy = minp.y,
+            posz = minp.z
         }
     })
 end)
