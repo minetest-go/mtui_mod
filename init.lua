@@ -9,6 +9,7 @@ mtui = {
     url = minetest.settings:get("mtui.url") or "http://127.0.0.1:8080",
     key = minetest.settings:get("mtui.key")
 }
+assert(mtui.key, "no key found")
 
 local MP = minetest.get_modpath("mtui")
 loadfile(MP.."/bridge_rx.lua")(http)
@@ -22,3 +23,7 @@ dofile(MP.."/handlers/ping.lua")
 dofile(MP.."/handlers/chat.lua")
 dofile(MP.."/handlers/execute_command.lua")
 dofile(MP.."/handlers/lua.lua")
+
+if minetest.get_modpath("mtt") and mtt.enabled then
+    dofile(MP.."/mtt.lua")
+end
