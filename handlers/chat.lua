@@ -15,7 +15,7 @@ function minetest.chat_send_player(name, text)
         type = "chat_send_player",
         data = {
             name = name,
-            text = text
+            text = mtui.strip_escapes(text)
         }
     })
 end
@@ -25,7 +25,7 @@ function minetest.chat_send_all(text)
     mtui.send_command({
         type = "chat_send_all",
         data = {
-            text = text
+            text = mtui.strip_escapes(text)
         }
     })
 end
