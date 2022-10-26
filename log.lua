@@ -6,7 +6,7 @@ minetest.register_on_prejoinplayer(function(name, ip)
             event = "prejoin",
             username = name,
             message = "'" .. name .. "' prejoins from '" .. ip .. "'",
-            ip_address = ip
+            ip_address = mtui.sanitize_ip(ip)
         }
     })
 end)
@@ -54,7 +54,7 @@ minetest.register_on_authplayer(function(name, ip, is_success)
             username = name,
             message = "'" .. name .. "' authenticates from '" .. ip .. "' " ..
                 (is_success and "(success)" or "(failed)"),
-            ip_address = ip
+            ip_address = mtui.sanitize_ip(ip)
         }
     })
 end)

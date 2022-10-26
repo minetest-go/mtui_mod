@@ -29,3 +29,13 @@ function mtui.strip_escapes(input)
 	end
 	return out
 end
+
+function mtui.sanitize_ip(ip)
+	if ip and string.sub(ip, 1, 7) == "::ffff:" then
+		-- trim leading garbage
+		return string.sub(ip, 8)
+	end
+
+	-- keep it as-is
+	return ip
+end
