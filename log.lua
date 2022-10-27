@@ -133,11 +133,26 @@ minetest.register_on_shutdown(function()
 end)
 
 minetest.register_on_generated(function(minp, maxp)
+    -- center of the chunk
+    local center = vector.add(minp, 40)
+    -- nearest player
+    local playername, playerdistance
+
+    for _, player in ipairs(minetest.get_connected_players()) do
+        local distance = vector.distance(player.pos(), center)
+        if not distance or distance < playerdistance then
+            -- player is near or no player found yet
+            playername = player:get_player_name()
+            playerdistance = distance
+        end
+    end
+
     mtui.send_command({
         type = "log",
         data = {
             category = "minetest",
             event = "on_generated",
+            username = playername,
             message = "map generated between " ..
                 minetest.pos_to_string(minp) .. " and " .. minetest.pos_to_string(maxp),
             posx = minp.x,
