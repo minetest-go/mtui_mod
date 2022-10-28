@@ -140,7 +140,7 @@ minetest.register_on_generated(function(minp, maxp)
 
     for _, player in ipairs(minetest.get_connected_players()) do
         local distance = vector.distance(player:get_pos(), center)
-        if not distance or distance < playerdistance then
+        if not playerdistance or distance < playerdistance then
             -- player is near or no player found yet
             playername = player:get_player_name()
             playerdistance = distance
