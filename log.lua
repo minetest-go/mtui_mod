@@ -163,6 +163,9 @@ minetest.register_on_generated(function(minp, maxp)
 end)
 
 minetest.register_on_protection_violation(function(pos, name)
+    if not name or name == "" then
+        return
+    end
     mtui.send_command({
         type = "log",
         data = {
