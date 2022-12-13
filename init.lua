@@ -28,3 +28,7 @@ if minetest.get_modpath("mtt") and mtt.enabled then
     dofile(MP.."/mtt.lua")
     dofile(MP.."/common.spec.lua")
 end
+
+if minetest.get_modpath("monitoring") then
+    dofile(MP.."/monitoring.lua")
+end
