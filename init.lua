@@ -24,6 +24,12 @@ dofile(MP.."/handlers/chat.lua")
 dofile(MP.."/handlers/execute_command.lua")
 dofile(MP.."/handlers/lua.lua")
 
+if not minetest.get_modpath("xp_redo") then
+    -- enable per-player stats
+    -- note: the xp_redo has the same module, only enable if it isn't present
+    dofile(MP.."/player_stats.lua")
+end
+
 if minetest.get_modpath("mtt") and mtt.enabled then
     dofile(MP.."/mtt.lua")
     dofile(MP.."/common.spec.lua")
