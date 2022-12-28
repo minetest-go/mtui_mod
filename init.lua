@@ -16,6 +16,8 @@ loadfile(MP.."/bridge_rx.lua")(http)
 loadfile(MP.."/bridge_tx.lua")(http)
 
 dofile(MP.."/common.lua")
+dofile(MP.."/control.lua")
+dofile(MP.."/control_registrations.lua")
 dofile(MP.."/tan.lua")
 dofile(MP.."/stats.lua")
 dofile(MP.."/log.lua")
