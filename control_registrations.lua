@@ -1,5 +1,5 @@
 
-mtui.register_control("mtui_shutdown_server", {
+mtui.register_control("mtui:shutdown", {
     type = "button",
     label = "Shutdown server",
     set = function()
@@ -7,7 +7,7 @@ mtui.register_control("mtui_shutdown_server", {
     end
 })
 
-mtui.register_control("mtui_time_of_day", {
+mtui.register_control("mtui:tod", {
     type = "numeric",
     min = 0,
     max = 24,
