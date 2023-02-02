@@ -26,7 +26,8 @@ local function post_stats()
             player_count = #minetest.get_connected_players(),
             uptime = minetest.get_server_uptime(),
             max_lag = minetest.get_server_max_lag(),
-            time_of_day = minetest.get_timeofday()
+            time_of_day = minetest.get_timeofday(),
+            version = minetest.get_version().string
         }
     })
 end
