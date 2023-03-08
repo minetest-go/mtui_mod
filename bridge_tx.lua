@@ -34,15 +34,20 @@ local function send_commands()
 end
 
 -- queues a command to send to the ui
-function mtui.send_command(cmd)
+function mtui.send_command(cmd, flush)
     if metric then
         metric.inc()
     end
-    table.insert(commands, cmd)
 
-    if not send_triggered then
-        -- defer sending of commands until next globalstep
-        minetest.after(0, send_commands)
+    -- enqueue
+    table.insert(commands, cmd)
+    if flush then
+        -- high prio
+        send_commands()
+    elseif not send_triggered then
+        -- low prio
+        -- defer sending of commands
+        minetest.after(2, send_commands)
         send_triggered = true
     end
 end

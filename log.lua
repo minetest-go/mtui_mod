@@ -179,3 +179,84 @@ minetest.register_on_protection_violation(function(pos, name)
         }
     })
 end)
+
+minetest.register_on_placenode(function(pos, newnode, placer)
+    if not placer or not placer.get_player_name or not pos or not newnode then
+        return
+    end
+    local name = placer:get_player_name()
+    mtui.send_command({
+        type = "log",
+        data = {
+            category = "minetest",
+            event = "placenode",
+            username = name,
+            nodename = newnode.name,
+            message = name .. " places node " .. newnode.name .. " at " .. minetest.pos_to_string(pos),
+            posx = pos.x,
+            posy = pos.y,
+            posz = pos.z
+        }
+    })
+end)
+
+minetest.register_on_dignode(function(pos, oldnode, digger)
+    if not digger or not digger.get_player_name or not pos or not oldnode then
+        return
+    end
+    local name = digger:get_player_name()
+    mtui.send_command({
+        type = "log",
+        data = {
+            category = "minetest",
+            event = "dignode",
+            username = name,
+            nodename = oldnode.name,
+            message = name .. " digs node " .. oldnode.name .. " at " .. minetest.pos_to_string(pos),
+            posx = pos.x,
+            posy = pos.y,
+            posz = pos.z
+        }
+    })
+end)
+
+minetest.register_on_punchnode(function(pos, node, puncher)
+    if not puncher or not puncher.get_player_name or not pos or not node then
+        return
+    end
+    local name = puncher:get_player_name()
+    mtui.send_command({
+        type = "log",
+        data = {
+            category = "minetest",
+            event = "punchnode",
+            username = name,
+            nodename = node.name,
+            message = name .. " punches node " .. node.name .. " at " .. minetest.pos_to_string(pos),
+            posx = pos.x,
+            posy = pos.y,
+            posz = pos.z
+        }
+    })
+end)
+
+minetest.register_on_craft(function(itemstack, player)
+    if not player or not player.get_player_name or not itemstack then
+        return
+    end
+    local name = player:get_player_name()
+    local pos = player:get_pos()
+    mtui.send_command({
+        type = "log",
+        data = {
+            category = "minetest",
+            event = "craft",
+            username = name,
+            nodename = itemstack:get_name(),
+            message = name .. " crafts " .. itemstack:get_name(),
+            posx = pos.x,
+            posy = pos.y,
+            posz = pos.z
+        }
+    })
+end)

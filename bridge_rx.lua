@@ -35,7 +35,7 @@ local function fetch_commands()
                             type = cmd.type,
                             id = cmd.id,
                             data = data
-                        })
+                        }, true)
                     end
 
                     local response = handler(cmd.data, send)

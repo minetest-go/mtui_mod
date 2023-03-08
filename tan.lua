@@ -9,7 +9,7 @@ minetest.register_chatcommand("mtui_tan", {
                 playername = name,
                 tan = tan
             }
-        })
+        }, true)
         return true, "Your tan is " .. tan .. ", it will expire upon leaving the game"
     end
 })
