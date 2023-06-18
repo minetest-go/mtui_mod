@@ -1,3 +1,35 @@
+local old_log = minetest.log
+local logfile_level_mapping = {
+    ["none"] = "logfile",
+    ["error"] = "logfile-error",
+    ["warning"] = "logfile-warning",
+    ["action"] = "logfile-action",
+    ["info"] = "logfile-info",
+    ["verbose"] = "logfile-verbose",
+}
+
+function minetest.log(level, msg)
+    if type(level) == "string" and type(msg) == "string" then
+        -- TODO: parse out online player-names, mod-prefix, position(s?)
+        local event = logfile_level_mapping[level]
+        if not event then
+            event = "logfile"
+        end
+
+        mtui.send_command({
+            type = "log",
+            data = {
+                category = "minetest",
+                event = event,
+                message = msg
+            }
+        })
+    end
+
+    return old_log(level, msg)
+end
+
+
 minetest.register_on_prejoinplayer(function(name, ip)
     mtui.send_command({
         type = "log",
