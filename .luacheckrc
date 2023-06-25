@@ -1,6 +1,7 @@
 globals = {
 	"mtui",
-	"minetest"
+	"minetest",
+	"technic"
 }
 
 read_globals = {
