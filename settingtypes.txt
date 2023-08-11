@@ -1,0 +1,5 @@
+# The full url to the mtui service
+mtui.url (the url to the mtui service) string http://127.0.0.1:8080
+
+# The unique key to the mtui service
+mtui.key (the key to the mtui service) string my-secret-key-please-change
