@@ -16,5 +16,6 @@ read_globals = {
 
 	-- deps
 	"monitoring",
-	"mtt"
+	"mtt",
+	"beerchat"
 }

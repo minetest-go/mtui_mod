@@ -1,6 +1,6 @@
 
 mtui.register_on_command("lua", function(data)
-    local fn = loadstring(data.code)
+	local fn = loadstring(data.code)
 
 	local result
 	local status, err = pcall(function()

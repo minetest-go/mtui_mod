@@ -16,17 +16,21 @@ loadfile(MP.."/bridge_rx.lua")(http)
 loadfile(MP.."/bridge_tx.lua")(http)
 
 dofile(MP.."/common.lua")
-dofile(MP.."/control.lua")
-dofile(MP.."/control_registrations.lua")
 dofile(MP.."/tan.lua")
 dofile(MP.."/stats.lua")
 dofile(MP.."/log.lua")
 dofile(MP.."/log_file.lua")
 dofile(MP.."/log_technic.lua")
+
+dofile(MP.."/control.lua")
+dofile(MP.."/controls/builtin.lua")
+dofile(MP.."/controls/restart_if_empty.lua")
+
 dofile(MP.."/handlers/ping.lua")
 dofile(MP.."/handlers/chat.lua")
 dofile(MP.."/handlers/execute_command.lua")
 dofile(MP.."/handlers/lua.lua")
+dofile(MP.."/handlers/controls.lua")
 
 if not minetest.get_modpath("xp_redo") then
     -- enable per-player stats
