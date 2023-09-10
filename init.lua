@@ -38,6 +38,10 @@ if not minetest.get_modpath("xp_redo") then
     dofile(MP.."/player_stats.lua")
 end
 
+if minetest.get_modpath("mail") then
+    dofile(MP.."/mail.lua")
+end
+
 if minetest.get_modpath("mtt") and mtt.enabled then
     dofile(MP.."/mtt.lua")
     dofile(MP.."/common.spec.lua")

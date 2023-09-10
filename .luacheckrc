@@ -1,7 +1,8 @@
 globals = {
 	"mtui",
 	"minetest",
-	"technic"
+	"technic",
+	"mail"
 }
 
 read_globals = {
