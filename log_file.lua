@@ -26,5 +26,10 @@ function minetest.log(level, msg)
         })
     end
 
-    return old_log(level, msg)
+    if not msg then
+        -- call with a single parameter only (the engine checks param-count, not var-type)
+        return old_log(level)
+    else
+        return old_log(level, msg)
+    end
 end
