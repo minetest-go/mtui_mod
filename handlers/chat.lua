@@ -40,3 +40,50 @@ else
         minetest.chat_send_all("<" .. data.name .. "> " .. data.message)
     end)
 end
+
+minetest.register_on_joinplayer(function(player, last_login)
+    local name = player:get_player_name()
+    mtui.send_command({
+        type = "chat_notification",
+        data = {
+            channel = "main",
+            name = name,
+            message =  "❱ Joined the game" .. (last_login and "" or " (new)")
+        }
+    })
+end)
+
+minetest.register_on_leaveplayer(function(player, timed_out)
+    local name = player:get_player_name()
+
+    mtui.send_command({
+        type = "chat_notification",
+        data = {
+            channel = "main",
+            name = name,
+            message =  "❰ Left the game" .. (timed_out and " (timed out)" or "")
+        }
+    })
+end)
+
+minetest.register_on_mods_loaded(function()
+    mtui.send_command({
+        type = "chat_notification",
+        data = {
+            channel = "main",
+            name = "",
+            message =  "Minetest started"
+        }
+    })
+end)
+
+minetest.register_on_shutdown(function()
+    mtui.send_command({
+        type = "chat_notification",
+        data = {
+            channel = "main",
+            name = "",
+            message =  "Minetest shutting down"
+        }
+    })
+end)
