@@ -5,7 +5,11 @@ local function check_restart()
     if restart and #minetest.get_connected_players() == 0 then
         -- no one online, restart
         if minetest.get_modpath("beerchat") then
-            beerchat.on_channel_message("main", "SYSTEM", "➢ Scheduled restart")
+            beerchat.send_on_channel({
+                name = "SYSTEM",
+                channel = "main",
+                message = "➢ Scheduled restart"
+            })
         end
         minetest.request_shutdown("scheduled", true)
     end
