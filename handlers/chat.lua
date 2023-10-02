@@ -1,31 +1,42 @@
 
+if minetest.get_modpath("beerchat") then
+    -- use beerchat hooks
 
-local old_chat_send_all = minetest.chat_send_all
-local old_chat_send_player = minetest.chat_send_player
+    -- game -> ui
+    local old_on_channel_message = beerchat.on_channel_message
+    function beerchat.on_channel_message(channel, name, message)
+        old_on_channel_message(channel, name, message)
+        mtui.send_command({
+            type = "chat_notification",
+            data = {
+                channel = channel,
+                name = name,
+                message = mtui.strip_escapes(message)
+            }
+        })
+    end
 
--- message/PM from the ui to ingame
-mtui.register_on_command("send_chat_message", function(data)
-    old_chat_send_player(data.name, "DM from " .. data.name .. ": " .. data.text)
-end)
+    -- ui -> game
+    mtui.register_on_command("chat_send", function(data)
+        beerchat.send_on_local_channel(data)
+    end)
+else
+    -- use builtin
 
--- intercept ingame message and send themto the ui
-function minetest.chat_send_player(name, text)
-    old_chat_send_player(name, text)
-    mtui.send_command({
-        type = "chat_send_player",
-        data = {
-            name = name,
-            text = mtui.strip_escapes(text)
-        }
-    })
-end
+    -- game -> ui
+    minetest.register_on_chat_message(function(name, message)
+        mtui.send_command({
+            type = "chat_notification",
+            data = {
+                channel = "main",
+                name = name,
+                message = mtui.strip_escapes(message)
+            }
+        })
+    end)
 
-function minetest.chat_send_all(text)
-    old_chat_send_all(text)
-    mtui.send_command({
-        type = "chat_send_all",
-        data = {
-            text = mtui.strip_escapes(text)
-        }
-    })
+    -- ui -> game
+    mtui.register_on_command("chat_send", function(data)
+        minetest.chat_send_all("<" .. data.name .. "> " .. data.message)
+    end)
 end

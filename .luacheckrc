@@ -2,7 +2,8 @@ globals = {
 	"mtui",
 	"minetest",
 	"technic",
-	"mail"
+	"mail",
+	"beerchat"
 }
 
 read_globals = {
@@ -17,6 +18,5 @@ read_globals = {
 
 	-- deps
 	"monitoring",
-	"mtt",
-	"beerchat"
+	"mtt"
 }
