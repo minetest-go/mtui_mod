@@ -1,24 +1,32 @@
 
 if minetest.get_modpath("beerchat") then
     -- use beerchat hooks
+    local last_sent_msg = {}
 
     -- game -> ui
-    local old_on_channel_message = beerchat.on_channel_message
-    function beerchat.on_channel_message(channel, name, message)
-        old_on_channel_message(channel, name, message)
-        mtui.send_command({
-            type = "chat_notification",
-            data = {
-                channel = channel,
-                name = name,
-                message = mtui.strip_escapes(message)
-            }
-        })
-    end
+    table.insert(beerchat.cb.on_send_on_channel, function(_, msg)
+        print("beerchat.cb.on_send_on_channel", msg)
+        if last_sent_msg ~= msg then
+            -- this is not the last sent message, relay to ui
+            mtui.send_command({
+                type = "chat_notification",
+                data = {
+                    channel = msg.channel,
+                    name = msg.name,
+                    message = mtui.strip_escapes(msg.message)
+                }
+            })
+        end
+
+        return true
+    end)
 
     -- ui -> game
     mtui.register_on_command("chat_send", function(data)
-        beerchat.send_on_local_channel(data)
+        print("chat_send", data)
+        -- remember last sent message (don't send it back to the ui in the above callback)
+        last_sent_msg = data
+        beerchat.send_on_channel(data)
     end)
 else
     -- use builtin
@@ -41,6 +49,7 @@ else
     end)
 end
 
+-- join/leave/start/shutdown messages
 minetest.register_on_joinplayer(function(player, last_login)
     local name = player:get_player_name()
     mtui.send_command({
@@ -72,7 +81,7 @@ minetest.register_on_mods_loaded(function()
         data = {
             channel = "main",
             name = "",
-            message =  "Minetest started"
+            message =  "✔ Minetest started"
         }
     })
 end)
@@ -83,7 +92,7 @@ minetest.register_on_shutdown(function()
         data = {
             channel = "main",
             name = "",
-            message =  "Minetest shutting down"
+            message =  "✖ Minetest shutting down"
         }
     })
 end)
