@@ -5,7 +5,6 @@ if minetest.get_modpath("beerchat") then
 
     -- game -> ui
     table.insert(beerchat.cb.on_send_on_channel, function(_, msg)
-        print("beerchat.cb.on_send_on_channel", msg)
         if last_sent_msg ~= msg then
             -- this is not the last sent message, relay to ui
             mtui.send_command({
@@ -23,7 +22,6 @@ if minetest.get_modpath("beerchat") then
 
     -- ui -> game
     mtui.register_on_command("chat_send", function(data)
-        print("chat_send", data)
         -- remember last sent message (don't send it back to the ui in the above callback)
         last_sent_msg = data
         beerchat.send_on_channel(data)
