@@ -33,9 +33,7 @@ dofile(MP.."/handlers/execute_command.lua")
 dofile(MP.."/handlers/lua.lua")
 dofile(MP.."/handlers/controls.lua")
 
-if minetest.get_modpath("mesecons_switch")
-    and minetest.get_modpath("mesecons_button")
-    and minetest.get_modpath("mesecons_lightstone") then
+if minetest.get_modpath("mesecons_switch") and minetest.get_modpath("mesecons_lightstone") then
     dofile(MP.."/handlers/mesecons.lua")
 end
 

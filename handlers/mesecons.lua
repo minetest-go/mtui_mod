@@ -1,10 +1,9 @@
 
-local button_off_def = assert(minetest.registered_nodes["mesecons_button:button_off"])
 local switch_off_def = assert(minetest.registered_nodes["mesecons_switch:mesecon_switch_off"])
 local switch_on_def = assert(minetest.registered_nodes["mesecons_switch:mesecon_switch_on"])
 
 -- ui -> game
--- enable/disable switch or press button for an amount of time
+-- enable/disable switch
 mtui.register_on_command("mesecons_set", function(data)
     minetest.load_area(data.pos)
     local node = minetest.get_node_or_nil(data.pos)
@@ -17,12 +16,6 @@ mtui.register_on_command("mesecons_set", function(data)
         if node.name == "mesecons_switch:mesecon_switch_off" then
             -- switch in off-state, turn on
             switch_off_def.on_rightclick(data.pos, node)
-            return { success = true }
-        elseif node.name == "mesecons_button:button_off" then
-            -- button in off-state, turn on for 1 second
-            button_off_def.on_rightclick(data.pos, node)
-            -- call turnoff async, in case the node-timer does not fire (unloaded area)
-            minetest.after(1, mesecon.button_turnoff, data.pos)
             return { success = true }
         end
     elseif data.state == "off" then
