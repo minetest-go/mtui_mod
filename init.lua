@@ -21,6 +21,7 @@ dofile(MP.."/stats.lua")
 dofile(MP.."/log.lua")
 dofile(MP.."/log_file.lua")
 dofile(MP.."/log_technic.lua")
+dofile(MP.."/register_wand.lua")
 
 dofile(MP.."/control.lua")
 dofile(MP.."/controls/builtin.lua")
