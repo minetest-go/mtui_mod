@@ -1,10 +1,14 @@
+-- TODO: common node-registration function
+
 minetest.register_tool("mtui:register_wand", {
     description = "UI Register wand",
     inventory_image = "mtui_register_wand.png",
     stack_max = 1,
-    range = 0,
     on_use = function(_, player, pointed_thing)
         local pos = pointed_thing.under
+        if not pos then
+            return
+        end
         local node = minetest.get_node_or_nil(pos)
         local playername = player:get_player_name()
 
