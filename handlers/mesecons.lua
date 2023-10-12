@@ -13,6 +13,14 @@ mtui.register_on_command("mesecons_set", function(data)
         return
     end
 
+    if node.name ~= data.nodename then
+        -- wrong nodename
+        return {
+            success = false,
+            nodename_mismatch = true
+        }
+    end
+
     if data.state == "on" then
         if node.name == "mesecons_switch:mesecon_switch_off" then
             -- switch in off-state, turn on
@@ -29,6 +37,10 @@ mtui.register_on_command("mesecons_set", function(data)
             switch_on_def.on_rightclick(data.pos, node)
         end
     end
+
+    return {
+        success = true
+    }
 end)
 
 -- game -> ui
@@ -42,7 +54,7 @@ switch_on_def.on_rightclick = function(pos, node)
         data = {
             pos = pos,
             state = "off",
-            name = node.name
+            nodename = node.name
         }
     })
     return old_switch_on_rightclick_action(pos, node)
@@ -56,7 +68,7 @@ switch_off_def.on_rightclick = function(pos, node)
         data = {
             pos = pos,
             state = "on",
-            name = node.name
+            nodename = node.name
         }
     })
     return old_switch_off_rightclick_action(pos, node)
@@ -77,7 +89,7 @@ for _, color in ipairs(lightstone_colors) do
                     pos = pos,
                     state = "on",
                     color = color,
-                    name = node.name
+                    nodename = node.name
                 }
             })
             return old_action_on(pos, node)
@@ -94,7 +106,7 @@ for _, color in ipairs(lightstone_colors) do
                     pos = pos,
                     state = "off",
                     color = color,
-                    name = node.name
+                    nodename = node.name
                 }
             })
             return old_action_off(pos, node)
