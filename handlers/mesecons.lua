@@ -47,7 +47,7 @@ switch_on_def.on_rightclick = function(pos, node)
         data = {
             pos = pos,
             state = "off",
-            nodename = node.name
+            nodename = "mesecons_switch:mesecon_switch_off"
         }
     })
     return old_switch_on_rightclick_action(pos, node)
@@ -61,7 +61,7 @@ switch_off_def.on_rightclick = function(pos, node)
         data = {
             pos = pos,
             state = "on",
-            nodename = node.name
+            nodename = "mesecons_switch:mesecon_switch_on"
         }
     })
     return old_switch_off_rightclick_action(pos, node)
@@ -80,7 +80,7 @@ for _, color in ipairs(lightstone_colors) do
             data = {
                 pos = pos,
                 state = "off",
-                nodename = node.name
+                nodename = "mesecons_lightstone:lightstone_" .. color .. "_off"
             }
         })
         return old_action_off(pos, node)
@@ -94,7 +94,7 @@ for _, color in ipairs(lightstone_colors) do
             data = {
                 pos = pos,
                 state = "on",
-                nodename = node.name
+                nodename = "mesecons_lightstone:lightstone_" .. color .. "_on"
             }
         })
         return old_action_on(pos, node)
