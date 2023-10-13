@@ -33,7 +33,10 @@ dofile(MP.."/handlers/lua.lua")
 dofile(MP.."/handlers/controls.lua")
 
 if minetest.get_modpath("mesecons_switch") and minetest.get_modpath("mesecons_lightstone") then
-    dofile(MP.."/handlers/mesecons.lua")
+    dofile(MP.."/mesecons/common.lua")
+    dofile(MP.."/mesecons/lightstones.lua")
+    dofile(MP.."/mesecons/switch.lua")
+    dofile(MP.."/mesecons/register_tool.lua")
 end
 
 if not minetest.get_modpath("xp_redo") then
