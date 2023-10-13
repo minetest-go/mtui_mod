@@ -32,6 +32,10 @@ dofile(MP.."/handlers/execute_command.lua")
 dofile(MP.."/handlers/lua.lua")
 dofile(MP.."/handlers/controls.lua")
 
+if minetest.get_modpath("mesecons_switch") and minetest.get_modpath("mesecons_lightstone") then
+    dofile(MP.."/handlers/mesecons.lua")
+end
+
 if not minetest.get_modpath("xp_redo") then
     -- enable per-player stats
     -- note: the xp_redo has the same module, only enable if it isn't present

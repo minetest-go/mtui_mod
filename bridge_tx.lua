@@ -47,7 +47,7 @@ function mtui.send_command(cmd, flush)
     elseif not send_triggered then
         -- low prio
         -- defer sending of commands
-        minetest.after(2, send_commands)
+        minetest.after(1, send_commands)
         send_triggered = true
     end
 end
