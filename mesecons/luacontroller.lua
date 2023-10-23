@@ -1,3 +1,5 @@
+-- all luacontroller nodes
+local luacontroller_nodes = {}
 
 local function register_all(prefix)
     for a = 0, 1 do -- 0 = off  1 = on
@@ -7,6 +9,7 @@ local function register_all(prefix)
         local cid = tostring(d)..tostring(c)..tostring(b)..tostring(a)
         local node_name = prefix..cid
         mtui.mesecons.allowed_nodes[node_name] = true
+        luacontroller_nodes[node_name] = true
     end
     end
     end
@@ -30,7 +33,7 @@ mtui.register_on_command("luacontroller_set_program", function(data)
         return { success = false, errmsg = "not loaded" }
     end
 
-    if not mtui.mesecons.allowed_nodes[node.name] then
+    if not luacontroller_nodes[node.name] then
         -- unexpected node
         return { success = false, errmsg = "unexpected node: " .. node.name }
     end
@@ -74,7 +77,7 @@ mtui.register_on_command("luacontroller_get_program", function(data)
         return { success = false, errmsg = "not loaded" }
     end
 
-    if not mtui.mesecons.allowed_nodes[node.name] then
+    if not luacontroller_nodes[node.name] then
         -- unexpected node
         return { success = false, errmsg = "unexpected node: " .. node.name }
     end
@@ -90,4 +93,29 @@ mtui.register_on_command("luacontroller_get_program", function(data)
         code = meta:get_string("code"),
         errmsg = meta:get_string("errmsg")
     }
+end)
+
+mtui.register_on_command("luacontroller_digiline_send", function(data)
+    minetest.load_area(data.pos)
+    local node = minetest.get_node_or_nil(data.pos)
+    if node == nil then
+        -- not loaded
+        return { success = false, errmsg = "not loaded" }
+    end
+
+    if not luacontroller_nodes[node.name] then
+        -- unexpected node
+        return { success = false, errmsg = "unexpected node: " .. node.name }
+    end
+
+    if minetest.is_protected(data.pos, data.playername) then
+        -- protected
+        return { success = false, errmsg = "protected" }
+    end
+
+    local meta = minetest.get_meta(data.pos)
+    local luac_id = meta:get_int("luac_id")
+    mesecon.queue:add_action(data.pos, "lc_digiline_relay", {data.channel, luac_id, data.msg})
+
+    return { success = true }
 end)
