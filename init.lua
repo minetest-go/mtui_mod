@@ -36,6 +36,7 @@ if minetest.get_modpath("mesecons_switch") and minetest.get_modpath("mesecons_li
     dofile(MP.."/mesecons/common.lua")
     dofile(MP.."/mesecons/lightstones.lua")
     dofile(MP.."/mesecons/switch.lua")
+    dofile(MP.."/mesecons/luacontroller.lua")
     dofile(MP.."/mesecons/register_tool.lua")
 
     if minetest.get_modpath("digilines") then

@@ -19,5 +19,6 @@ read_globals = {
 	-- deps
 	"monitoring",
 	"mtt",
-	"mesecon"
+	"mesecon",
+	"mooncontroller"
 }
