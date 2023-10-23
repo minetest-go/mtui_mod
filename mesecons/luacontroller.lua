@@ -27,18 +27,18 @@ mtui.register_on_command("luacontroller_set_program", function(data)
     local node = minetest.get_node_or_nil(data.pos)
     if node == nil then
         -- not loaded
-        return { success = false }
+        return { success = false, errmsg = "not loaded" }
     end
 
     if not mtui.mesecons.allowed_nodes[node.name] then
         -- unexpected node
-        return { success = false }
+        return { success = false, errmsg = "unexpected node: " .. node.name }
     end
 
     local def = minetest.registered_nodes[node.name]
     if not def or type(def.on_receive_fields) ~= "function" then
         -- node definition doesn't make sense
-        return { success = false }
+        return { success = false, errmsg = "nodedef error" }
     end
 
     -- shim player (the formspec callback only uses the `get_player_name` field)
@@ -71,17 +71,17 @@ mtui.register_on_command("luacontroller_get_program", function(data)
     local node = minetest.get_node_or_nil(data.pos)
     if node == nil then
         -- not loaded
-        return { success = false }
+        return { success = false, errmsg = "not loaded" }
     end
 
     if not mtui.mesecons.allowed_nodes[node.name] then
         -- unexpected node
-        return { success = false }
+        return { success = false, errmsg = "unexpected node: " .. node.name }
     end
 
     if minetest.is_protected(data.pos, data.playername) then
         -- protected
-        return { success = false }
+        return { success = false, errmsg = "protected" }
     end
 
     local meta = minetest.get_meta(data.pos)

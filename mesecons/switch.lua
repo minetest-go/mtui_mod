@@ -10,28 +10,21 @@ mtui.mesecons.allowed_nodes[switch_off_name] = true
 -- ui -> game
 -- enable/disable switch
 mtui.register_on_command("mesecons_set", function(data)
-    minetest.load_area(data.pos)
-    local node = minetest.get_node_or_nil(data.pos)
-    if node == nil then
-        -- not loaded
-        return { success = false }
-    end
+    local node = mesecon.get_node_force(data.pos)
 
-    if data.state == "on" then
-        if node.name == switch_off_name then
+    if node.name == switch_off_name or node.name == switch_on_name then
+        if data.state == "on" then
             -- switch in off-state, turn on
             switch_off_def.on_rightclick(data.pos, node)
             return { success = true }
-        end
-    elseif data.state == "off" then
-        if node.name == switch_on_name then
+        elseif data.state == "off" then
             -- switch in on-state, turn off
             switch_on_def.on_rightclick(data.pos, node)
             return { success = true }
         end
     end
 
-    return { success = false }
+    return { success = false, errmsg = "invalid node: " .. node.name .. " for state: " .. data.state }
 end)
 
 -- game -> ui
