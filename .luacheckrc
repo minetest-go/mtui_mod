@@ -3,7 +3,8 @@ globals = {
 	"minetest",
 	"technic",
 	"mail",
-	"beerchat"
+	"beerchat",
+	"atm"
 }
 
 read_globals = {
