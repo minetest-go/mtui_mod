@@ -25,12 +25,15 @@ mtui.register_on_command("atm_transfer", function(data)
     atm.balance[data.source] = atm.balance[data.source] - data.amount
     atm.balance[data.target] = atm.balance[data.target] + data.amount
 
+    local source_balance = atm.balance[data.source]
+    local target_balance = atm.balance[data.target]
+
     atm.save_account(data.source)
     atm.save_account(data.target)
 
     return {
         success = true,
-        source_balance = atm.balance[data.source],
-        target_balance = atm.balance[data.target]
+        source_balance = source_balance,
+        target_balance = target_balance
     }
 end)
