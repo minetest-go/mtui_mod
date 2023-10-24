@@ -51,7 +51,7 @@ if not minetest.get_modpath("xp_redo") then
 end
 
 if minetest.get_modpath("atm") then
-    dofile(MP.."/atm.lua")
+    dofile(MP.."/handlers/atm.lua")
 end
 
 if minetest.get_modpath("mail") then
