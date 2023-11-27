@@ -1,8 +1,9 @@
 local http = ...
 
-local metric
+local metric_commands, metric_requests
 if minetest.get_modpath("monitoring") then
-    metric = monitoring.counter("mtui_rx", "number of received commands")
+    metric_commands = monitoring.counter("mtui_rx_commands", "number of received commands")
+    metric_requests = monitoring.counter("mtui_rx_requests", "number of rx requests")
 end
 
 local command_handlers = {}
@@ -13,6 +14,10 @@ end
 
 -- fetch commands from the ui
 local function fetch_commands()
+    if metric_requests then
+        metric_requests.inc()
+    end
+
     http.fetch({
         url = mtui.url .. "/api/bridge",
         extra_headers = {
@@ -25,8 +30,8 @@ local function fetch_commands()
             local command_list = minetest.parse_json(res.data)
 
             for _, cmd in ipairs(command_list) do
-                if metric then
-                    metric.inc()
+                if metric_commands then
+                    metric_commands.inc()
                 end
                 local handler = command_handlers[cmd.type]
                 if type(handler) == "function" then
