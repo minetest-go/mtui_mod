@@ -1,8 +1,9 @@
 local http = ...
 
-local metric
+local metric_commands, metric_requests
 if minetest.get_modpath("monitoring") then
-    metric = monitoring.counter("mtui_tx", "number of sent commands")
+    metric_commands = monitoring.counter("mtui_tx_commands", "number of sent commands")
+    metric_requests = monitoring.counter("mtui_tx_requests", "number of tx requests")
 end
 
 -- list of commands to send
@@ -12,6 +13,10 @@ local commands = {}
 local send_triggered = false
 
 local function send_commands()
+    if metric_requests then
+        metric_requests.inc()
+    end
+
     http.fetch({
         url = mtui.url .. "/api/bridge",
         extra_headers = {
@@ -35,8 +40,8 @@ end
 
 -- queues a command to send to the ui
 function mtui.send_command(cmd, flush)
-    if metric then
-        metric.inc()
+    if metric_commands then
+        metric_commands.inc()
     end
 
     -- enqueue
