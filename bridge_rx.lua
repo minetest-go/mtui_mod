@@ -1,9 +1,11 @@
 local http = ...
 
-local metric_commands, metric_requests
+local metric_commands, metric_requests, metric_time, metric_size
 if minetest.get_modpath("monitoring") then
     metric_commands = monitoring.counter("mtui_rx_commands", "number of received commands")
     metric_requests = monitoring.counter("mtui_rx_requests", "number of rx requests")
+    metric_time = monitoring.counter("mtui_rx_request_time", "time usage in microseconds for rx requests")
+    metric_size = monitoring.counter("mtui_rx_response_size", "rx response size in bytes")
 end
 
 local command_handlers = {}
@@ -18,6 +20,8 @@ local function fetch_commands()
         metric_requests.inc()
     end
 
+    local t0 = minetest.get_us_time()
+
     http.fetch({
         url = mtui.url .. "/api/bridge",
         extra_headers = {
@@ -26,7 +30,16 @@ local function fetch_commands()
         timeout = 30,
         method = "GET"
     }, function(res)
+        if metric_time then
+            local t1 = minetest.get_us_time()
+            metric_time.inc(t1 - t0)
+        end
+
         if res.succeeded and res.code == 200 and res.data ~= "" then
+            if metric_size then
+                metric_size.inc(#res.data)
+            end
+
             local command_list = minetest.parse_json(res.data)
 
             for _, cmd in ipairs(command_list) do

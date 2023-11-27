@@ -1,9 +1,11 @@
 local http = ...
 
-local metric_commands, metric_requests
+local metric_commands, metric_requests, metric_time, metric_size
 if minetest.get_modpath("monitoring") then
     metric_commands = monitoring.counter("mtui_tx_commands", "number of sent commands")
     metric_requests = monitoring.counter("mtui_tx_requests", "number of tx requests")
+    metric_time = monitoring.counter("mtui_tx_request_time", "time usage in microseconds for tx requests")
+    metric_size = monitoring.counter("mtui_tx_request_size", "tx request size in bytes")
 end
 
 -- list of commands to send
@@ -17,6 +19,13 @@ local function send_commands()
         metric_requests.inc()
     end
 
+    local t0 = minetest.get_us_time()
+
+    local data = minetest.write_json(commands)
+    if metric_size then
+        metric_size.inc(#data)
+    end
+
     http.fetch({
         url = mtui.url .. "/api/bridge",
         extra_headers = {
@@ -24,8 +33,13 @@ local function send_commands()
         },
         timeout = 10,
         method = "POST",
-        data = minetest.write_json(commands)
+        data = data
     }, function(res)
+        if metric_time then
+            local t1 = minetest.get_us_time()
+            metric_time.inc(t1 - t0)
+        end
+
         if not res.succeeded or res.code ~= 200 then
             minetest.log("error", "[mtui] failed to send command, " ..
                 "status: " .. res.code .. " response: " .. (res.data or "<none>"))
