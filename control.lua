@@ -4,6 +4,7 @@
 local controls = {}
 
 function mtui.register_control(name, def)
+    def.category = def.category or "unknown"
     def.name = name
     def.modname = def.modname or minetest.get_current_modname()
     controls[name] = def

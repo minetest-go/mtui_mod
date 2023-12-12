@@ -29,8 +29,10 @@ minetest.register_chatcommand("restart_if_empty", {
 })
 
 mtui.register_control("mtui:restart_if_empty", {
+    category = "builtin",
     type = "bool",
-    label = "Restart as soon as the server is empty",
+    label = "Restart if empty",
+    description = "Restart as soon as the server is empty",
     action = {
         get = function()
             return restart
