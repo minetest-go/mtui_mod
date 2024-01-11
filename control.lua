@@ -38,7 +38,9 @@ function mtui.set_control_value(name, value)
     local def = controls[name]
     if def and def.action and type(def.action.set) == "function" then
         def.action.set(value)
+        return true
     end
+    return false
 end
 
 function mtui.get_control(name)
