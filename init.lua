@@ -6,8 +6,11 @@ end
 
 print("[mtui] initializing")
 mtui = {
+    mod_storage = minetest.get_mod_storage(),
     url = minetest.settings:get("mtui.url") or "http://127.0.0.1:8080",
-    key = minetest.settings:get("mtui.key")
+    key = minetest.settings:get("mtui.key"),
+    -- map of name to bool (known node)
+    items = {}
 }
 assert(mtui.key, "no key found")
 
@@ -18,6 +21,7 @@ loadfile(MP.."/bridge_tx.lua")(http)
 dofile(MP.."/common.lua")
 dofile(MP.."/tan.lua")
 dofile(MP.."/stats.lua")
+dofile(MP.."/items.lua")
 dofile(MP.."/log.lua")
 dofile(MP.."/log_file.lua")
 dofile(MP.."/log_technic.lua")
@@ -27,6 +31,7 @@ dofile(MP.."/controls/builtin.lua")
 dofile(MP.."/controls/restart_if_empty.lua")
 
 dofile(MP.."/handlers/ping.lua")
+dofile(MP.."/handlers/items.lua")
 dofile(MP.."/handlers/chat.lua")
 dofile(MP.."/handlers/execute_command.lua")
 dofile(MP.."/handlers/lua.lua")
@@ -61,6 +66,7 @@ end
 if minetest.get_modpath("mtt") and mtt.enabled then
     dofile(MP.."/mtt.lua")
     dofile(MP.."/common.spec.lua")
+    dofile(MP.."/items.spec.lua")
 end
 
 if minetest.get_modpath("monitoring") then
