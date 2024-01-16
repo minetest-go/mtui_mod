@@ -2,7 +2,14 @@ local lcd_name = "digilines:lcd"
 
 mtui.mesecons.allowed_nodes[lcd_name] = true
 
-local lcd_def = assert(minetest.registered_nodes[lcd_name])
+local lcd_def = minetest.registered_nodes[lcd_name]
+if not lcd_def or not lcd_def.digilines then
+    -- old or invalid digilines mod, skip this module
+    return
+end
+
+mtui.mesecons.allowed_nodes[lcd_name] = true
+
 local old_effector_action = assert(lcd_def.digilines.effector.action)
 
 lcd_def.digilines.effector.action = function(pos, node, channel, msg)
