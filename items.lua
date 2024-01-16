@@ -1,6 +1,6 @@
 
 local function check_registered_items()
-    mtui.items = minetest.deserialize(mtui.mod_storage:get_string("registered_items")) or {}
+    mtui.items = minetest.parse_json(mtui.mod_storage:get_string("registered_items")) or {}
 
     -- assemble node-list from registered lbm's
     local lbm_nodes = {}
@@ -32,7 +32,7 @@ local function check_registered_items()
     end
 
     -- save current list back
-    mtui.mod_storage:set_string("registered_items", minetest.serialize(mtui.items))
+    mtui.mod_storage:set_string("registered_items", minetest.write_json(mtui.items))
 end
 
 -- execute check after mods loaded and other things are set up
