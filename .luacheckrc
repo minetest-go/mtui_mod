@@ -21,5 +21,6 @@ read_globals = {
 	"monitoring",
 	"mtt",
 	"mesecon",
-	"mooncontroller"
+	"mooncontroller",
+	"skins"
 }

@@ -36,6 +36,7 @@ dofile(MP.."/handlers/chat.lua")
 dofile(MP.."/handlers/execute_command.lua")
 dofile(MP.."/handlers/lua.lua")
 dofile(MP.."/handlers/controls.lua")
+dofile(MP.."/handlers/skins.lua")
 
 if minetest.get_modpath("mesecons_switch") and minetest.get_modpath("mesecons_lightstone") then
     dofile(MP.."/mesecons/common.lua")
