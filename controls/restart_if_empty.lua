@@ -1,8 +1,22 @@
 
-local restart = false
+--[[
+restart_condition_empty == 1: restart if possible
+restart_condition_empty == 0: do nothing
+--]]
+
+local function get_condition_empty()
+    return mtui.mod_storage:get_int("restart_condition_empty") == 1
+end
+
+local function set_condition_empty(state)
+    mtui.mod_storage:set_int("reset_condition_empty", state and 1 or 0)
+end
 
 local function check_restart()
-    if restart and #minetest.get_connected_players() == 0 then
+    if get_condition_empty() and #minetest.get_connected_players() == 0 then
+        -- reset condition
+        set_condition_empty(false)
+
         -- no one online, restart
         if minetest.get_modpath("beerchat") then
             beerchat.send_on_channel({
@@ -23,23 +37,8 @@ minetest.register_chatcommand("restart_if_empty", {
     description = "restarts the server when the last player leaves",
     privs = { ban = true },
     func = function()
-        restart = true
+        -- set condition
+        set_condition_empty(true)
         check_restart()
     end
-})
-
-mtui.register_control("mtui:restart_if_empty", {
-    category = "builtin",
-    type = "bool",
-    label = "Restart if empty",
-    description = "Restart as soon as the server is empty",
-    action = {
-        get = function()
-            return restart
-        end,
-        set = function(v)
-            restart = v
-            check_restart()
-        end
-    }
 })
