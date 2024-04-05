@@ -9,7 +9,7 @@ local function get_condition_empty()
 end
 
 local function set_condition_empty(state)
-    mtui.mod_storage:set_int("reset_condition_empty", state and 1 or 0)
+    mtui.mod_storage:set_int("restart_condition_empty", state and 1 or 0)
 end
 
 local function check_restart()
