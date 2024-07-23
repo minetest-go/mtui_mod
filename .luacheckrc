@@ -10,6 +10,8 @@ globals = {
 }
 
 read_globals = {
+	-- builtin
+	"loadstring",
 	-- deps
 	"monitoring",
 	"mtt",
