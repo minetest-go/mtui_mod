@@ -51,9 +51,24 @@ local function check_item_overrides()
     end
 end
 
--- execute check after mods loaded and other things are set up
+local function check_item_aliases()
+    local json = mtui.mod_storage:get_string("aliases")
+    if not json or json == "" then
+        -- not configured
+        return
+    end
+
+    -- apply custom aliases
+    local aliases = minetest.parse_json(json)
+    for originalname, alias in pairs(aliases) do
+        minetest.register_alias_force(alias, originalname)
+    end
+end
+
+-- execute after mods loaded and other things are set up
 minetest.register_on_mods_loaded(function()
     check_item_overrides()
+    check_item_aliases()
     minetest.after(0, check_registered_items)
 end)
 
