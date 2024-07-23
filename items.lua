@@ -1,6 +1,6 @@
 
 local function check_registered_items()
-    mtui.items = minetest.parse_json(mtui.mod_storage:get_string("registered_items")) or {}
+    mtui.items = minetest.parse_json(mtui.mod_storage:get_string("registered_items") or "{}") or {}
 
     -- assemble node-list from registered lbm's
     local lbm_nodes = {}
