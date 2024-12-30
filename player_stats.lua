@@ -45,3 +45,21 @@ end)
 minetest.register_on_craft(function(itemstack, player)
 	increase_stat(player, "crafted", itemstack:get_count())
 end)
+
+-- last-ip tracking
+local last_ips = {}
+
+minetest.register_on_authplayer(function(name, ip, is_success)
+	if is_success then
+		-- store ip temporarily
+		last_ips[name] = ip
+	end
+end)
+
+minetest.register_on_joinplayer(function(player)
+	-- store ip in player meta permanently
+	local playername = player:get_player_name()
+	local meta = player:get_meta()
+	meta:set_string("last_ip", last_ips[playername])
+	last_ips[playername] = nil
+end)
