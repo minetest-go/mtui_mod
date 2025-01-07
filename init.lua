@@ -70,7 +70,3 @@ if minetest.get_modpath("mtt") and mtt.enabled then
     dofile(MP.."/common.spec.lua")
     dofile(MP.."/items.spec.lua")
 end
-
-if minetest.get_modpath("monitoring") then
-    dofile(MP.."/monitoring.lua")
-end
