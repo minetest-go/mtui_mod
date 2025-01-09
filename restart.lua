@@ -61,7 +61,7 @@ local function check_restart()
             })
         end
         minetest.chat_send_all("Restarting server, reason: " .. restart_reason)
-        minetest.log("info", "[mtui] restarting, reason: " .. restart_reason)
+        minetest.log("action", "[mtui] restarting, reason: " .. restart_reason)
         minetest.request_shutdown("scheduled, reason: " .. restart_reason, true, delay)
         restart_pending = true
     end
