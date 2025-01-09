@@ -26,8 +26,6 @@ dofile(MP.."/log.lua")
 dofile(MP.."/log_file.lua")
 dofile(MP.."/log_technic.lua")
 
-dofile(MP.."/control.lua")
-
 dofile(MP.."/handlers/ping.lua")
 dofile(MP.."/handlers/items.lua")
 dofile(MP.."/handlers/chat.lua")
