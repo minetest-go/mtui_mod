@@ -30,7 +30,7 @@ local function check_restart()
     end
 
     -- check for changed mods condition
-    if restart_condition_mods_changed and mods_changed then
+    if restart_if_mods_changed and mods_changed then
         schedule_restart = true
         restart_reason = "mods changed"
     end
@@ -71,6 +71,9 @@ local function check_loop()
     check_restart()
     minetest.after(5, check_loop)
 end
+
+-- start check loop
+minetest.after(5, check_loop)
 
 mtui.register_on_command("notify_mods_changed", function()
     mods_changed = true
