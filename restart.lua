@@ -5,6 +5,9 @@ local mods_changed = false
 -- true if restart in progress
 local restart_pending = false
 
+-- true if at least one player has visited the server
+local player_visited = false
+
 local function check_restart()
     if restart_pending then
         -- restart already pending
@@ -21,8 +24,8 @@ local function check_restart()
     local schedule_restart = false
     local restart_reason
 
-    -- check for empty server and condition
-    if restart_if_empty and server_empty then
+    -- check for empty server and condition (only if there was at least one player in the server)
+    if player_visited and restart_if_empty and server_empty then
         -- reset condition
         mtui.mod_storage:set_int("restart_condition_empty", 0)
         schedule_restart = true
@@ -82,6 +85,7 @@ end)
 
 -- check after every player leave event
 minetest.register_on_leaveplayer(function()
+    player_visited = true
     minetest.after(1, check_restart)
 end)
 
