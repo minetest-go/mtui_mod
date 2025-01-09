@@ -27,8 +27,6 @@ dofile(MP.."/log_file.lua")
 dofile(MP.."/log_technic.lua")
 
 dofile(MP.."/control.lua")
-dofile(MP.."/controls/builtin.lua")
-dofile(MP.."/controls/restart_if_empty.lua")
 
 dofile(MP.."/handlers/ping.lua")
 dofile(MP.."/handlers/items.lua")
@@ -38,6 +36,8 @@ dofile(MP.."/handlers/execute_command.lua")
 dofile(MP.."/handlers/lua.lua")
 dofile(MP.."/handlers/controls.lua")
 dofile(MP.."/handlers/skins.lua")
+
+dofile(MP.."/restart.lua")
 
 if minetest.get_modpath("mesecons_switch") and minetest.get_modpath("mesecons_lightstone") then
     dofile(MP.."/mesecons/common.lua")
