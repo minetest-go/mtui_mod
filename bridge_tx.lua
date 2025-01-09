@@ -70,3 +70,6 @@ function mtui.send_command(cmd, flush)
         send_triggered = true
     end
 end
+
+-- send pending commands on shutdown
+minetest.register_on_shutdown(send_commands)
