@@ -12,10 +12,17 @@ local function update_game_info()
 
     local chatcommand_info = {}
     for name, def in pairs(minetest.registered_chatcommands) do
+
+        local privs = def.privs or {}
+        if type(privs) == "string" then
+            -- privs should be table, not plain string
+            privs = {privs}
+        end
+
         chatcommand_info[name] = {
             params = mtui.strip_escapes(def.params),
             description = mtui.strip_escapes(def.description),
-            privs = def.privs
+            privs = privs
         }
     end
     mtui.mod_storage:set_string("chatcommand_info", minetest.write_json(chatcommand_info))
