@@ -16,7 +16,7 @@ local function update_game_info()
         local privs = def.privs or {}
         if type(privs) == "string" then
             -- privs should be table, not plain string
-            privs = {privs}
+            privs = {[privs] = true}
         elseif type(privs) == "table" and #privs > 0 then
             -- an array, somehow, convert to map
             privs = {}
