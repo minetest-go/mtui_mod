@@ -17,6 +17,14 @@ local function update_game_info()
         if type(privs) == "string" then
             -- privs should be table, not plain string
             privs = {privs}
+        elseif type(privs) == "table" and #privs > 0 then
+            -- an array, somehow, convert to map
+            privs = {}
+            for _,p in ipairs(def.privs) do
+                if type(p) == "string" then
+                    privs[p] = true
+                end
+            end
         end
 
         chatcommand_info[name] = {
