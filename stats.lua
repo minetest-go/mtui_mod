@@ -23,12 +23,12 @@ local function get_respawn_place(player)
             pos = "near " .. place_name
             -- place.full_name
         end
-        if not location then -- try using biome name
-            local biome = get_biome_of_player(player)
-            if biome ~= nil and biome ~= "" then
-                location = true
-                pos = "near " .. tostring(biome)
-            end
+    end
+    if not location then -- try using biome name
+        local biome = get_biome_of_player(player)
+        if biome ~= nil and biome ~= "" then
+            location = true
+            pos = "near " .. tostring(biome)
         end
     end
     return pos
