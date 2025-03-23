@@ -53,7 +53,8 @@ local function post_stats()
             breath = player:get_breath(),
             physics = player:get_physics_override(),
             control = player:get_player_control(),
-            pos = player:get_pos()
+            pos = player:get_pos(),
+            loc = location
         })
     end
 
