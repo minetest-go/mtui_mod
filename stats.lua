@@ -1,4 +1,39 @@
+local has_respawn = minetest.get_modpath("respawn") ~= nil
 local global_stats = {}
+
+local function get_biome_of_player(player)
+   local biome_data = core.get_biome_data(player:get_pos())
+   if biome_data and (biome_data.biome ~= nil) then
+      local biome = core.get_biome_name(biome_data.biome)
+      if biome ~= nil and biome ~= "" then
+         return biome
+      end
+   end
+   return nil
+end
+
+local function get_respawn_place(player)
+    local pos = player:get_pos()
+    local location = false
+    local loc_string = ""
+    if has_respawn then
+        local max_dist = 80
+        local place_name, place = respawn.closest_place_or_player_place("", pos, max_dist)
+        if place_name then
+            location = true
+            loc_string = "near " .. place_name
+            -- place.full_name
+        end
+    end
+    if not location then -- try using biome name
+        local biome = get_biome_of_player(player)
+        if biome ~= nil and biome ~= "" then
+            location = true
+            loc_string = "near " .. tostring(biome)
+        end
+    end
+    return loc_string
+end
 
 -- post player and server-stats to the ui
 local function post_stats()
@@ -9,6 +44,7 @@ local function post_stats()
         if info then
             info.address = mtui.sanitize_ip(info.address)
         end
+        local location = get_respawn_place(player)
 
         table.insert(players, {
             name = playername,
@@ -17,7 +53,8 @@ local function post_stats()
             breath = player:get_breath(),
             physics = player:get_physics_override(),
             control = player:get_player_control(),
-            pos = player:get_pos()
+            pos = player:get_pos(),
+            loc = location
         })
     end
 
