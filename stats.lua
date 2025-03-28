@@ -18,7 +18,7 @@ local function get_respawn_place(player)
     local loc_string = ""
     if has_respawn then
         local max_dist = 80
-        local place_name, place = respawn.closest_place_or_player_place("", pos, max_dist)
+        local place_name = respawn.closest_place_or_player_place("", pos, max_dist)
         if place_name then
             location = true
             loc_string = "near " .. place_name
@@ -28,7 +28,6 @@ local function get_respawn_place(player)
     if not location then -- try using biome name
         local biome = get_biome_of_player(player)
         if biome ~= nil and biome ~= "" then
-            location = true
             loc_string = "near " .. tostring(biome)
         end
     end

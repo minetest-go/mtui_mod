@@ -12,10 +12,12 @@ globals = {
 read_globals = {
 	-- builtin
 	"loadstring",
+	"core",
 	-- deps
 	"monitoring",
 	"mtt",
 	"mesecon",
 	"mooncontroller",
-	"skins"
+	"skins",
+	"respawn"
 }
