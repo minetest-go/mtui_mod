@@ -26,6 +26,7 @@ dofile(MP.."/items.lua")
 dofile(MP.."/log.lua")
 dofile(MP.."/log_file.lua")
 dofile(MP.."/log_technic.lua")
+dofile(MP.."/prejoin_ratelimit.lua")
 
 dofile(MP.."/handlers/ping.lua")
 dofile(MP.."/handlers/items.lua")
