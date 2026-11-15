@@ -21,7 +21,14 @@ local function send_commands()
 
     local t0 = minetest.get_us_time()
 
-    local data = minetest.write_json(commands)
+    local data, err = minetest.write_json(commands)
+    if not data then
+        minetest.log("error", "[mtui] failed to serialize command: " .. err)
+        commands = {}
+        send_triggered = false
+        return
+    end
+
     if metric_size then
         metric_size.inc(#data)
     end
