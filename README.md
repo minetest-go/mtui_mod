@@ -1,6 +1,6 @@
 # mtui_mod
 
-Companion mod for the [mtui](https://github.com/minetest-go/mtui) application
+Companion mod for the [mtui](https://github.com/luanti-golang/mtui) application
 
 # License
 
